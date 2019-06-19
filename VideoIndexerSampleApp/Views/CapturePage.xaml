@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="VideoIndexerSampleApp.Views.CapturePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VideoIndexerSampleApp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=CapturePageViewModel}"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Capture" Icon="Camera" Click="CaptureStartButton_Click" IsEnabled="{x:Bind IsCaptureEnabled, Mode=OneWay}"/>
+            <AppBarButton Label="Stop" Icon="Stop" Click="CaptureStopButton_Click" IsEnabled="{x:Bind IsCaptureStopEnabled, Mode=OneWay}" />
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid>
+        <TextBlock Text="画面右下のカメラボタンでキャプチャーを開始します。" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32" />
+        <CaptureElement x:Name="captureElement" />
+        <ContentDialog x:Name="uploadProgressDialog" Title="アップロード中">
+            <Grid Margin="30">
+                <ProgressRing IsActive="True" Width="100" Height="100" />
+            </Grid>
+        </ContentDialog>
+    </Grid>
+</Page>

@@ -9,7 +9,7 @@
   <Identity
     Name="88a21c08-e34b-4338-bf60-8ea97322c43b"
     Publisher="CN=kaota"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="88a21c08-e34b-4338-bf60-8ea97322c43b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -32,12 +32,12 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="VideoIndexerSampleApp.App">
       <uap:VisualElements
-        DisplayName="VideoIndexerSampleApp"
+        DisplayName="Video Indexer サンプルアプリ"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="VideoIndexerSampleApp"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
@@ -45,5 +45,7 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <DeviceCapability Name="webcam"/>
+    <DeviceCapability Name="microphone"/>
   </Capabilities>
 </Package>

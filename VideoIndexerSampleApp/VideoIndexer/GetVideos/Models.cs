@@ -6,7 +6,7 @@
 //
 //    var getVideosResult = GetVideosResult.FromJson(jsonString);
 
-namespace VideoIndexerApp.Models.GetVideos
+namespace VideoIndexerSampleApp.VideoIndexer.GetVideos
 {
     using System;
     using System.Collections.Generic;
@@ -125,12 +125,12 @@ namespace VideoIndexerApp.Models.GetVideos
 
     public partial class GetVideosResult
     {
-        public static GetVideosResult FromJson(string json) => JsonConvert.DeserializeObject<GetVideosResult>(json, VideoIndexerApp.Models.GetVideos.Converter.Settings);
+        public static GetVideosResult FromJson(string json) => JsonConvert.DeserializeObject<GetVideosResult>(json, VideoIndexerSampleApp.VideoIndexer.GetVideos.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this GetVideosResult self) => JsonConvert.SerializeObject(self, VideoIndexerApp.Models.GetVideos.Converter.Settings);
+        public static string ToJson(this GetVideosResult self) => JsonConvert.SerializeObject(self, VideoIndexerSampleApp.VideoIndexer.GetVideos.Converter.Settings);
     }
 
     internal static class Converter

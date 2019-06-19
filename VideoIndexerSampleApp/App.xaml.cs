@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using VideoIndexerSampleApp.ViewModels;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -39,16 +43,15 @@ namespace VideoIndexerSampleApp
         /// <param name="e">起動の要求とプロセスの詳細を表示します。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            var page = Window.Current.Content as Page;
 
             // ウィンドウに既にコンテンツが表示されている場合は、アプリケーションの初期化を繰り返さずに、
             // ウィンドウがアクティブであることだけを確認してください
-            if (rootFrame == null)
+            if (page == null)
             {
                 // ナビゲーション コンテキストとして動作するフレームを作成し、最初のページに移動します
-                rootFrame = new Frame();
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                page = InitializeApplication();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -56,31 +59,35 @@ namespace VideoIndexerSampleApp
                 }
 
                 // フレームを現在のウィンドウに配置します
-                Window.Current.Content = rootFrame;
+                Window.Current.Content = page;
             }
+
+            // draw into the title bar
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            // remove the solid-colored backgrounds behind the caption controls and system back button
+            var viewTitleBar = ApplicationView.GetForCurrentView().TitleBar;
+            viewTitleBar.ButtonBackgroundColor = Colors.Transparent;
+            viewTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            viewTitleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
+
 
             if (e.PrelaunchActivated == false)
             {
-                if (rootFrame.Content == null)
-                {
-                    // ナビゲーションの履歴スタックが復元されていない場合、最初のページに移動します。
-                    // このとき、必要な情報をナビゲーション パラメーターとして渡して、新しいページを
-                    // 作成します
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
                 // 現在のウィンドウがアクティブであることを確認します
                 Window.Current.Activate();
             }
         }
 
-        /// <summary>
-        /// 特定のページへの移動が失敗したときに呼び出されます
-        /// </summary>
-        /// <param name="sender">移動に失敗したフレーム</param>
-        /// <param name="e">ナビゲーション エラーの詳細</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private Page InitializeApplication()
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            if (!(Resources["ViewModelLocator"] is ViewModelLocator viewModelLocator))
+            {
+                throw new InvalidOperationException("ViewModelLocator is required");
+            }
+
+            return viewModelLocator.Initialize();
         }
 
         /// <summary>
